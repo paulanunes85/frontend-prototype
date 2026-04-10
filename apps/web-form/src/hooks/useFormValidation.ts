@@ -11,7 +11,7 @@ export const formSchema = z.object({
     .min(10, 'Description must be at least 10 characters')
     .max(500, 'Description must be at most 500 characters'),
   framework: z.enum(['react', 'vue', 'both']),
-  prototypeType: z.enum(['dashboard', 'landing', 'crud', 'ecommerce', 'custom']),
+  prototypeType: z.enum(['dashboard', 'landing', 'admin', 'mobile', 'internal-tool', 'form-wizard', 'portal', 'ai-chat']),
   components: z.array(z.string()).min(1, 'Select at least 1 component'),
   features: z.array(z.string()),
   businessRules: z.string().max(2000).optional().default(''),

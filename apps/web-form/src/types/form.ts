@@ -12,7 +12,15 @@ export interface FormData {
   azureRegion: string;
 }
 
-export type PrototypeType = 'dashboard' | 'landing' | 'crud' | 'ecommerce' | 'custom';
+export type PrototypeType =
+  | 'dashboard'
+  | 'landing'
+  | 'admin'
+  | 'mobile'
+  | 'internal-tool'
+  | 'form-wizard'
+  | 'portal'
+  | 'ai-chat';
 
 export type Feature =
   | 'authentication'
@@ -22,12 +30,15 @@ export type Feature =
   | 'i18n'
   | 'testing';
 
-export const PROTOTYPE_TYPES: { value: PrototypeType; label: string }[] = [
-  { value: 'dashboard', label: 'Dashboard' },
-  { value: 'landing', label: 'Landing Page' },
-  { value: 'crud', label: 'CRUD / Form' },
-  { value: 'ecommerce', label: 'E-commerce' },
-  { value: 'custom', label: 'Custom' },
+export const PROTOTYPE_TYPES: { value: PrototypeType; label: string; icon: string; description: string }[] = [
+  { value: 'dashboard', label: 'Dashboard', icon: '📊', description: 'Analytics, KPIs, charts, and data tables' },
+  { value: 'landing', label: 'Landing Page', icon: '🚀', description: 'Product launch, marketing, or campaign page' },
+  { value: 'admin', label: 'Admin Panel', icon: '⚙️', description: 'CRUD, user management, settings, back-office' },
+  { value: 'mobile', label: 'Mobile App', icon: '📱', description: 'iOS/Android responsive PWA prototype' },
+  { value: 'internal-tool', label: 'Internal Tool', icon: '🏢', description: 'Workflows, approvals, ticketing systems' },
+  { value: 'form-wizard', label: 'Form / Wizard', icon: '📝', description: 'Multi-step forms, surveys, onboarding flows' },
+  { value: 'portal', label: 'Portal', icon: '🌐', description: 'Self-service portal, client area, knowledge base' },
+  { value: 'ai-chat', label: 'AI Chat Interface', icon: '🤖', description: 'Chatbot UI, copilot interface, conversational UX' },
 ];
 
 export const FEATURES: { value: Feature; label: string }[] = [

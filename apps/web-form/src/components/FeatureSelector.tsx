@@ -15,8 +15,9 @@ export function FeatureSelector({ selected, onChange }: Props) {
   }
 
   return (
-    <fieldset className="form-step">
-      <legend>Features</legend>
+    <section className="form-section">
+      <h2 className="section-title">Features</h2>
+      <p className="section-subtitle">Select additional capabilities for your prototype.</p>
       <div className="feature-list">
         {FEATURES.map((feature) => (
           <label key={feature.value} className="feature-item">
@@ -29,6 +30,6 @@ export function FeatureSelector({ selected, onChange }: Props) {
           </label>
         ))}
       </div>
-    </fieldset>
+    </section>
   );
 }

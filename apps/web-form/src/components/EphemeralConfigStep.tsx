@@ -8,8 +8,9 @@ interface Props {
 
 export function EphemeralConfigStep({ formData, onChange }: Props) {
   return (
-    <fieldset className="form-step">
-      <legend>Ephemeral Environment</legend>
+    <section className="form-section">
+      <h2 className="section-title">Ephemeral Environment</h2>
+      <p className="section-subtitle">Configure how long the prototype stays live.</p>
 
       <label htmlFor="ttlHours">Time to Live (TTL)</label>
       <select
@@ -37,6 +38,6 @@ export function EphemeralConfigStep({ formData, onChange }: Props) {
           </option>
         ))}
       </select>
-    </fieldset>
+    </section>
   );
 }

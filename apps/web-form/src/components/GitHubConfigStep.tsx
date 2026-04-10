@@ -25,8 +25,9 @@ export function GitHubConfigStep({ formData, onChange }: Props) {
   }
 
   return (
-    <fieldset className="form-step">
-      <legend>GitHub Settings</legend>
+    <section className="form-section">
+      <h2 className="section-title">GitHub Settings</h2>
+      <p className="section-subtitle">Configure repository visibility and collaborators.</p>
 
       <label htmlFor="repoVisibility">Visibility</label>
       <select
@@ -63,6 +64,6 @@ export function GitHubConfigStep({ formData, onChange }: Props) {
           ))}
         </ul>
       )}
-    </fieldset>
+    </section>
   );
 }

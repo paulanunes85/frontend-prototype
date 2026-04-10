@@ -43,8 +43,9 @@ export function ComponentSelector({ selected, onChange }: Props) {
   }
 
   return (
-    <fieldset className="form-step">
-      <legend>Components</legend>
+    <section className="form-section">
+      <h2 className="section-title">Components</h2>
+      <p className="section-subtitle">Select the design system components for your prototype.</p>
       <input
         type="text"
         placeholder="Search components..."
@@ -69,6 +70,6 @@ export function ComponentSelector({ selected, onChange }: Props) {
           </label>
         ))}
       </div>
-    </fieldset>
+    </section>
   );
 }

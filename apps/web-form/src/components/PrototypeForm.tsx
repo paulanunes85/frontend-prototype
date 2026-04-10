@@ -63,11 +63,6 @@ export function PrototypeForm() {
 
   return (
     <form onSubmit={handleSubmit} className="prototype-form">
-      <h1>Foundry Prototype Generator</h1>
-      <p className="form-subtitle">
-        Fill out the form to generate a functional prototype in ~4.5 minutes.
-      </p>
-
       <BasicInfoStep
         formData={formData}
         onChange={(field, value) => updateField(field, value)}

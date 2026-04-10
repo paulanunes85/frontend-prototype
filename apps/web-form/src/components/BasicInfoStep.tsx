@@ -7,8 +7,9 @@ interface Props {
 
 export function BasicInfoStep({ formData, onChange }: Props) {
   return (
-    <fieldset className="form-step">
-      <legend>Basic Information</legend>
+    <section className="form-section">
+      <h2 className="section-title">Basic Information</h2>
+      <p className="section-subtitle">Tell us about your project.</p>
 
       <label htmlFor="projectName">Project Name</label>
       <input
@@ -41,6 +42,6 @@ export function BasicInfoStep({ formData, onChange }: Props) {
         <option value="react">React</option>
         <option value="vue">Vue</option>
       </select>
-    </fieldset>
+    </section>
   );
 }

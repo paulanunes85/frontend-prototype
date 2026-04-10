@@ -5,8 +5,9 @@ interface Props {
 
 export function BusinessRulesStep({ businessRules, onBusinessRulesChange }: Props) {
   return (
-    <fieldset className="form-step">
-      <legend>Business Rules</legend>
+    <section className="form-section">
+      <h2 className="section-title">Business Rules</h2>
+      <p className="section-subtitle">Describe specific behaviors the prototype should demonstrate.</p>
       <textarea
         placeholder="Describe the business rules for the prototype...&#10;E.g.: Show sales from the last 30 days, filter by region, top 10 products."
         value={businessRules}
@@ -14,6 +15,6 @@ export function BusinessRulesStep({ businessRules, onBusinessRulesChange }: Prop
         rows={5}
       />
       <small>Optional. Describe specific behaviors the prototype should demonstrate.</small>
-    </fieldset>
+    </section>
   );
 }
