@@ -1,5 +1,4 @@
 import { BarChart3, Rocket, Settings, Smartphone, Building2, FileText, Globe, Bot } from 'lucide-react';
-import type { FormData } from '@/types/form';
 
 const TEMPLATES = [
   {

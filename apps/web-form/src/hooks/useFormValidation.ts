@@ -19,6 +19,13 @@ export const formSchema = z.object({
   collaborators: z.array(z.string()),
   ttlHours: z.number().min(1).max(720),
   azureRegion: z.string().min(1),
+  colorTheme: z.object({
+    primary: z.string(),
+    secondary: z.string(),
+    accent: z.string(),
+  }).optional(),
+  apiSchema: z.string().optional().default(''),
+  templateId: z.string().nullable().optional(),
 });
 
 export type FormSchema = z.infer<typeof formSchema>;

@@ -10,6 +10,9 @@ export interface FormData {
   collaborators: string[];
   ttlHours: number;
   azureRegion: string;
+  colorTheme: { primary: string; secondary: string; accent: string };
+  apiSchema: string;
+  templateId: string | null;
 }
 
 export type PrototypeType =
