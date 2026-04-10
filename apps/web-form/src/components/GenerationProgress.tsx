@@ -23,8 +23,8 @@ export function GenerationProgress({ currentAgent = 0 }: Props) {
 
   return (
     <div className="generation-progress">
-      <h2>Gerando protótipo...</h2>
-      <p className="progress-subtitle">Isso pode levar ~4.5 minutos</p>
+      <h2>Generating prototype...</h2>
+      <p className="progress-subtitle">This may take ~4.5 minutes</p>
       <ol className="agent-list">
         {agents.map((agent, i) => (
           <li key={i} className={`agent-item ${agent.status}`}>
@@ -32,7 +32,7 @@ export function GenerationProgress({ currentAgent = 0 }: Props) {
               {agent.status === 'completed' && '✓'}
               {agent.status === 'running' && '⟳'}
               {agent.status === 'pending' && '○'}
-              {agent.status === 'failed' && '✗'}
+              {false && '✗'}
             </span>
             <span className="agent-name">
               Agent {i + 1}: {agent.name}

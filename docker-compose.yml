@@ -1,0 +1,65 @@
+# =============================================================================
+# Foundry Prototype Generator — Local Simulation
+# =============================================================================
+# Simulates the full pipeline locally using Docker:
+#
+#   - web-form:          React form (Vite dev server)        → http://localhost:5173
+#   - mock-api:          Simulated Foundry orchestrator       → http://localhost:3001
+#   - sample-prototype:  Example generated prototype (nginx)  → http://localhost:8080
+#   - mcp-server:        MCP Design System server (stdio)     → internal only
+#
+# Usage:
+#   docker compose up --build
+#   Open http://localhost:5173 in your browser
+#
+# Stop:
+#   docker compose down
+# =============================================================================
+
+services:
+  # ---------- Web Form (React + Vite) ----------
+  web-form:
+    build:
+      context: ./apps/web-form
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_FOUNDRY_API_URL=http://localhost:3001
+      - VITE_FOUNDRY_API_TOKEN=local-dev-token
+    volumes:
+      - ./apps/web-form/src:/app/src:ro
+    depends_on:
+      - mock-api
+
+  # ---------- Mock API (simulates Foundry orchestrator) ----------
+  mock-api:
+    build:
+      context: ./apps/mock-api
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - SAMPLE_PROTOTYPE_URL=http://localhost:8080
+    depends_on:
+      - sample-prototype
+
+  # ---------- Sample Prototype (nginx — what a generated prototype looks like) ----------
+  sample-prototype:
+    build:
+      context: ./apps/sample-prototype
+    ports:
+      - "8080:80"
+
+  # ---------- MCP Server (Design System) ----------
+  mcp-server:
+    build:
+      context: ./mcp-server-design-system
+      dockerfile: Dockerfile.dev
+    environment:
+      - STORYBOOK_URL=https://storybook.company.com
+      - NPM_REGISTRY=https://npm.company.com
+    # MCP uses stdio — this container is for build validation only
+    # In production, Foundry connects to it directly
+    command: ["node", "build/index.js"]
+    stdin_open: true
