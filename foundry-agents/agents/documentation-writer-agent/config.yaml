@@ -1,0 +1,10 @@
+agent:
+  name: documentation-writer-agent
+  model: gpt-4
+  temperature: 0.3
+  max_tokens: 4000
+  timeout: 60s
+  mcp_tools: []
+  description: >
+    Generates four documentation files: README.md, ARCHITECTURE.md,
+    COMPONENTS.md, and DEPLOYMENT.md for the prototype repository.

@@ -1,0 +1,112 @@
+# Template: GitHub Actions — Build and Deploy to Azure Container Apps
+# This file is committed to each generated prototype repository by Agent 5.
+
+name: Build and Deploy Prototype to Azure
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  ACR_LOGIN_SERVER: ${{ secrets.ACR_LOGIN_SERVER }}
+  ACA_ENVIRONMENT: ${{ secrets.ACA_ENVIRONMENT }}
+  ACA_RESOURCE_GROUP: ${{ secrets.ACA_RESOURCE_GROUP }}
+  IMAGE_NAME: prototypes/${{ github.event.repository.name }}
+  TTL_HOURS: "72"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+      short-sha: ${{ steps.meta.outputs.short-sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Log in to Azure Container Registry
+        uses: azure/docker-login@v2
+        with:
+          login-server: ${{ env.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Extract metadata
+        id: meta
+        run: |
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+          echo "tags=${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${SHORT_SHA}" >> $GITHUB_OUTPUT
+          echo "short-sha=${SHORT_SHA}" >> $GITHUB_OUTPUT
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.meta.outputs.tags }}
+            ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
+
+  deploy-ephemeral:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    environment:
+      name: prototype-preview
+      url: ${{ steps.deploy.outputs.prototype-url }}
+    steps:
+      - name: Log in to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Generate unique app name
+        id: app-name
+        run: |
+          HASH=$(echo "${{ github.sha }}" | cut -c1-5)
+          APP_NAME="${{ github.event.repository.name }}-${HASH}"
+          APP_NAME=$(echo "$APP_NAME" | tr '[:upper:]' '[:lower:]' | cut -c1-32)
+          echo "name=${APP_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Deploy to Azure Container Apps
+        id: deploy
+        run: |
+          CREATED_AT=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          az containerapp create \
+            --name "${{ steps.app-name.outputs.name }}" \
+            --resource-group "${{ env.ACA_RESOURCE_GROUP }}" \
+            --environment "${{ env.ACA_ENVIRONMENT }}" \
+            --image "${{ needs.build-and-push.outputs.image-tag }}" \
+            --registry-server "${{ env.ACR_LOGIN_SERVER }}" \
+            --registry-username "${{ secrets.ACR_USERNAME }}" \
+            --registry-password "${{ secrets.ACR_PASSWORD }}" \
+            --target-port 80 \
+            --ingress external \
+            --min-replicas 0 \
+            --max-replicas 1 \
+            --cpu 0.25 \
+            --memory 0.5Gi \
+            --tags "created-at=${CREATED_AT}" "ttl=${{ env.TTL_HOURS }}" \
+                   "project=${{ github.event.repository.name }}" \
+                   "created-by=foundry-prototype-generator"
+
+          FQDN=$(az containerapp show \
+            --name "${{ steps.app-name.outputs.name }}" \
+            --resource-group "${{ env.ACA_RESOURCE_GROUP }}" \
+            --query "properties.configuration.ingress.fqdn" -o tsv)
+
+          echo "prototype-url=https://${FQDN}" >> $GITHUB_OUTPUT
+          echo "## Prototype Deployed" >> $GITHUB_STEP_SUMMARY
+          echo "| Resource | URL |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-----|" >> $GITHUB_STEP_SUMMARY
+          echo "| Landing | https://${FQDN} |" >> $GITHUB_STEP_SUMMARY
+          echo "| React | https://${FQDN}/react |" >> $GITHUB_STEP_SUMMARY
+          echo "| Vue | https://${FQDN}/vue |" >> $GITHUB_STEP_SUMMARY
+          echo "| Docs | https://${FQDN}/docs |" >> $GITHUB_STEP_SUMMARY

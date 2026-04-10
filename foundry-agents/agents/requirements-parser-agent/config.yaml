@@ -1,0 +1,11 @@
+agent:
+  name: requirements-parser-agent
+  model: gpt-4
+  temperature: 0.2
+  max_tokens: 2000
+  timeout: 30s
+  mcp_tools: []
+  description: >
+    Analyzes raw form data from the web form and produces a structured
+    JSON specification with project metadata, component needs, features,
+    business rules, and GitHub/Azure configuration.

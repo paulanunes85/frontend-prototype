@@ -1,0 +1,11 @@
+agent:
+  name: component-selector-agent
+  model: gpt-4
+  temperature: 0.3
+  max_tokens: 3000
+  timeout: 60s
+  mcp_tools:
+    - company-design-system
+  description: >
+    Queries the MCP Design System server to find and select the best
+    components for the prototype based on parsed requirements.

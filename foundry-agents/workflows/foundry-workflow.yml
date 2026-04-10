@@ -1,0 +1,139 @@
+# Foundry Prototype Generator — Workflow Definition
+# See Architecture Document Section 7 for full specification.
+
+name: Prototype Generator Workflow
+version: "1.1"
+
+triggers:
+  - type: api
+    endpoint: /api/generate-prototype
+    method: POST
+
+environment:
+  MCP_SERVER_PATH: /app/mcp-design-system
+  STORYBOOK_URL: https://storybook.company.com
+  NPM_REGISTRY: https://npm.company.com
+  GITHUB_ORG: company-name
+
+secrets:
+  - NPM_TOKEN
+  - GITHUB_TOKEN
+  - AZURE_CLIENT_ID
+  - AZURE_TENANT_ID
+  - AZURE_SUBSCRIPTION_ID
+  - ACR_LOGIN_SERVER
+  - ACR_USERNAME
+  - ACR_PASSWORD
+  - ACA_ENVIRONMENT
+  - ACA_RESOURCE_GROUP
+
+inputs:
+  form_data:
+    type: object
+    required: true
+    schema:
+      properties:
+        project_name: string
+        description: string
+        framework: string
+        prototype_type: string
+        components: array
+        features: array
+        business_rules: string
+        repo_visibility: string
+        collaborators: array
+        environment_config:
+          type: object
+          properties:
+            ttl_hours: integer
+            azure_region: string
+            notify_before_expiry: boolean
+
+steps:
+  - id: parse_requirements
+    name: Parse Requirements
+    agent: requirements-parser-agent
+    inputs:
+      form_data: ${inputs.form_data}
+    outputs:
+      parsed_requirements: result
+    timeout: 30s
+
+  - id: select_components
+    name: Select Components from Design System
+    agent: component-selector-agent
+    mcp_tools:
+      - company-design-system
+    inputs:
+      requirements: ${steps.parse_requirements.outputs.parsed_requirements}
+    outputs:
+      selected_components: result
+    timeout: 60s
+
+  - id: generate_code
+    name: Generate React and Vue Code
+    agent: code-generator-agent
+    mcp_tools:
+      - company-design-system
+    inputs:
+      requirements: ${steps.parse_requirements.outputs.parsed_requirements}
+      components: ${steps.select_components.outputs.selected_components}
+    outputs:
+      generated_code: result
+    timeout: 120s
+
+  - id: generate_documentation
+    name: Generate Documentation
+    agent: documentation-writer-agent
+    inputs:
+      requirements: ${steps.parse_requirements.outputs.parsed_requirements}
+      components: ${steps.select_components.outputs.selected_components}
+      code_structure: ${steps.generate_code.outputs.generated_code}
+    outputs:
+      documentation: result
+    timeout: 60s
+
+  - id: publish_and_deploy
+    name: Publish to GitHub and Deploy to Azure
+    agent: github-publisher-azure-deployer-agent
+    secrets:
+      - GITHUB_TOKEN
+      - AZURE_CLIENT_ID
+      - AZURE_TENANT_ID
+      - AZURE_SUBSCRIPTION_ID
+      - ACR_LOGIN_SERVER
+      - ACR_USERNAME
+      - ACR_PASSWORD
+      - ACA_ENVIRONMENT
+      - ACA_RESOURCE_GROUP
+    inputs:
+      repo_name: ${inputs.form_data.project_name}
+      code_files: ${steps.generate_code.outputs.generated_code}
+      docs_files: ${steps.generate_documentation.outputs.documentation}
+      visibility: ${inputs.form_data.repo_visibility}
+      collaborators: ${inputs.form_data.collaborators}
+      ttl_hours: ${inputs.form_data.environment_config.ttl_hours}
+    outputs:
+      repository_url: result.repository_url
+      prototype_url: result.prototype_url
+      react_url: result.react_url
+      vue_url: result.vue_url
+      expires_at: result.expires_at
+    timeout: 120s
+
+outputs:
+  success: true
+  repository_url: ${steps.publish_and_deploy.outputs.repository_url}
+  prototype_url: ${steps.publish_and_deploy.outputs.prototype_url}
+  react_url: ${steps.publish_and_deploy.outputs.react_url}
+  vue_url: ${steps.publish_and_deploy.outputs.vue_url}
+  expires_at: ${steps.publish_and_deploy.outputs.expires_at}
+  execution_time: ${workflow.duration}
+
+error_handling:
+  on_error:
+    - notify_user
+    - log_to_monitoring
+  retry_policy:
+    max_attempts: 2
+    backoff: exponential

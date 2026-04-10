@@ -1,0 +1,16 @@
+{
+  "project_name": "product-landing",
+  "description": "Landing page responsiva para lancamento de produto SaaS com hero, features, pricing e CTA",
+  "framework": "react",
+  "prototype_type": "landing",
+  "components": ["Hero", "Card", "Button", "Navbar", "Footer"],
+  "features": ["responsive", "i18n"],
+  "business_rules": "Hero com video de fundo, 3 planos de pricing, CTA para trial gratuito de 14 dias",
+  "repo_visibility": "public",
+  "collaborators": [],
+  "environment_config": {
+    "ttl_hours": 168,
+    "azure_region": "westeurope",
+    "notify_before_expiry": false
+  }
+}

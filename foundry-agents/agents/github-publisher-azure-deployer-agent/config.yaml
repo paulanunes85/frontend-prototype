@@ -1,0 +1,21 @@
+agent:
+  name: github-publisher-azure-deployer-agent
+  model: gpt-4
+  temperature: 0.2
+  max_tokens: 3000
+  timeout: 120s
+  mcp_tools: []
+  secrets:
+    - GITHUB_TOKEN
+    - AZURE_CLIENT_ID
+    - AZURE_TENANT_ID
+    - AZURE_SUBSCRIPTION_ID
+    - ACR_LOGIN_SERVER
+    - ACR_USERNAME
+    - ACR_PASSWORD
+    - ACA_ENVIRONMENT
+    - ACA_RESOURCE_GROUP
+  description: >
+    Creates the GitHub repository, pushes all code + Dockerfile + nginx.conf +
+    GitHub Actions workflow, configures repo secrets for Azure, adds collaborators,
+    and waits for the Azure Container Apps deployment to produce a shareable URL.

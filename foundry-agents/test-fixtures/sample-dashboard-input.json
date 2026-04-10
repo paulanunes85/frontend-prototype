@@ -1,0 +1,16 @@
+{
+  "project_name": "sales-dashboard",
+  "description": "Dashboard de vendas com metricas principais, graficos de tendencia e tabela de produtos",
+  "framework": "both",
+  "prototype_type": "dashboard",
+  "components": ["DataTable", "LineChart", "KPICard", "Navbar", "Sidebar"],
+  "features": ["responsive", "dark_mode"],
+  "business_rules": "Mostrar vendas dos ultimos 30 dias, filtro por regiao, top 10 produtos por receita",
+  "repo_visibility": "private",
+  "collaborators": ["maria.silva", "joao.santos"],
+  "environment_config": {
+    "ttl_hours": 72,
+    "azure_region": "eastus2",
+    "notify_before_expiry": true
+  }
+}

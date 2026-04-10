@@ -1,0 +1,24 @@
+{
+  "name": "foundry-prototype-generator",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Automated system that transforms business requirements into functional web application prototypes via Foundry Agents, MCP, and Azure Container Apps",
+  "author": "Paula Silva",
+  "license": "UNLICENSED",
+  "workspaces": [
+    "apps/web-form",
+    "mcp-server-design-system"
+  ],
+  "scripts": {
+    "dev:form": "npm run dev --workspace=apps/web-form",
+    "dev:mcp": "npm run dev --workspace=mcp-server-design-system",
+    "build:form": "npm run build --workspace=apps/web-form",
+    "build:mcp": "npm run build --workspace=mcp-server-design-system",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "clean": "rm -rf node_modules apps/*/node_modules mcp-server-design-system/node_modules"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

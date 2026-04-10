@@ -1,0 +1,16 @@
+{
+  "project_name": "inventory-crud",
+  "description": "CRUD completo para gerenciamento de inventario com formulario, tabela, modal de edicao e filtros",
+  "framework": "vue",
+  "prototype_type": "crud",
+  "components": ["DataTable", "Form", "Modal", "Button", "Select", "Alert", "Navbar"],
+  "features": ["responsive", "api_integration", "testing"],
+  "business_rules": "Campos: nome, SKU, quantidade, preco, categoria. Validacao de SKU unico. Alerta quando estoque < 10",
+  "repo_visibility": "private",
+  "collaborators": ["ana.costa"],
+  "environment_config": {
+    "ttl_hours": 72,
+    "azure_region": "eastus2",
+    "notify_before_expiry": true
+  }
+}

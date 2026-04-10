@@ -1,0 +1,4 @@
+azure-functions>=1.18.0
+azure-identity>=1.15.0
+azure-mgmt-appcontainers>=3.0.0
+azure-mgmt-containerregistry>=10.3.0
