@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Blueprint favicon: Abstract "B" made of Microsoft 4-color grid -->
+  <!-- Top-left: Red -->
+  <rect x="4" y="4" width="10" height="10" rx="2" fill="#F25022"/>
+  <!-- Top-right: Green -->
+  <rect x="18" y="4" width="10" height="10" rx="2" fill="#7FBA00"/>
+  <!-- Bottom-left: Blue -->
+  <rect x="4" y="18" width="10" height="10" rx="2" fill="#00A4EF"/>
+  <!-- Bottom-right: Yellow -->
+  <rect x="18" y="18" width="10" height="10" rx="2" fill="#FFB900"/>
+  <!-- Center dot: overlay that creates the "blueprint grid" effect -->
+  <rect x="14" y="2" width="4" height="28" rx="1" fill="white" opacity="1"/>
+  <rect x="2" y="14" width="28" height="4" rx="1" fill="white" opacity="1"/>
+</svg>

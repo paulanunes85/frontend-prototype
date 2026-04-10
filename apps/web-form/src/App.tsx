@@ -77,7 +77,10 @@ function Navbar() {
     <div className="fixed top-1 left-0 w-full z-50 flex items-center justify-center px-8 h-14"
       style={{ background: 'rgba(243,242,241,0.85)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
       <div className="flex items-center w-full max-w-[1200px]">
-        <a href="#" className="font-extrabold text-base text-[#171717] tracking-tight no-underline">Blueprint</a>
+        <a href="#" className="flex items-center gap-3 no-underline">
+          <img src="/logo-msft-github.svg" alt="Microsoft + GitHub" className="h-7" />
+          <span className="font-extrabold text-base text-[#171717] tracking-tight">Blueprint</span>
+        </a>
         <div className="flex gap-8 ml-auto mr-8">
           {['How It Works', 'Generator'].map((link) => (
             <a key={link} href={`#${link.toLowerCase().replace(/\s/g, '-')}`}
