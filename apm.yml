@@ -1,0 +1,9 @@
+name: frontend-prototype
+version: 1.0.0
+description: APM project for frontend-prototype
+author: paulanunes85
+dependencies:
+  apm:
+  - paulasilvatech/specky
+  mcp: []
+scripts: {}

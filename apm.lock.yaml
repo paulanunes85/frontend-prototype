@@ -1,0 +1,68 @@
+lockfile_version: '1'
+generated_at: '2026-04-16T21:16:21.419521+00:00'
+apm_version: 0.8.11
+dependencies:
+- repo_url: paulasilvatech/specky
+  host: github.com
+  resolved_commit: 697133a102d1adfcd27f2ff2d03fe875be81d158
+  package_type: apm_package
+  deployed_files:
+  - .github/agents/design-architect.agent.md
+  - .github/agents/implementer.agent.md
+  - .github/agents/quality-reviewer.agent.md
+  - .github/agents/release-engineer.agent.md
+  - .github/agents/requirements-engineer.agent.md
+  - .github/agents/research-analyst.agent.md
+  - .github/agents/sdd-clarify.agent.md
+  - .github/agents/sdd-init.agent.md
+  - .github/agents/spec-engineer.agent.md
+  - .github/agents/specky-onboarding.agent.md
+  - .github/agents/specky-orchestrator.agent.md
+  - .github/agents/task-planner.agent.md
+  - .github/agents/test-verifier.agent.md
+  - .github/hooks/specky-sdd-hooks.json
+  - .github/instructions/copilot-instructions.instructions.md
+  - .github/prompts/specky-api.prompt.md
+  - .github/prompts/specky-brownfield.prompt.md
+  - .github/prompts/specky-check-drift.prompt.md
+  - .github/prompts/specky-clarify.prompt.md
+  - .github/prompts/specky-debug-hook.prompt.md
+  - .github/prompts/specky-deploy.prompt.md
+  - .github/prompts/specky-design.prompt.md
+  - .github/prompts/specky-from-figma.prompt.md
+  - .github/prompts/specky-from-meeting.prompt.md
+  - .github/prompts/specky-greenfield.prompt.md
+  - .github/prompts/specky-implement.prompt.md
+  - .github/prompts/specky-migration.prompt.md
+  - .github/prompts/specky-onboarding.prompt.md
+  - .github/prompts/specky-orchestrate.prompt.md
+  - .github/prompts/specky-pipeline-status.prompt.md
+  - .github/prompts/specky-release.prompt.md
+  - .github/prompts/specky-research.prompt.md
+  - .github/prompts/specky-reset-phase.prompt.md
+  - .github/prompts/specky-resolve-conflict.prompt.md
+  - .github/prompts/specky-specify.prompt.md
+  - .github/prompts/specky-tasks.prompt.md
+  - .github/prompts/specky-verify.prompt.md
+  - .github/skills/implementer
+  - .github/skills/release-engineer
+  - .github/skills/research-analyst
+  - .github/skills/sdd-markdown-standard
+  - .github/skills/sdd-pipeline
+  - .github/skills/specky-onboarding
+  - .github/skills/specky-orchestrator
+  - .github/skills/test-verifier
+  content_hash: sha256:b2d93124c21658806b3a05bf615bdf585e236db36d60565fdb4118d523552cfc
+mcp_servers:
+- specky-sdd
+mcp_configs:
+  specky-sdd:
+    name: specky-sdd
+    transport: stdio
+    args:
+    - -y
+    - specky-sdd@latest
+    registry: false
+    tools:
+    - '*'
+    command: npx

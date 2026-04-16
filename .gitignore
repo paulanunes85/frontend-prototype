@@ -32,3 +32,7 @@ npm-debug.log*
 # Misc
 .npmrc
 *.tgz
+
+
+# APM dependencies
+apm_modules/
